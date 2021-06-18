@@ -39,3 +39,6 @@ Intellij Idea CE does not support Application servers, so install smart tomcat p
 
 **Hibernate bean validation**  
 Contains javax.validation package for annotations like @NotEmpty, for bean validation.
+
+**@RestController**  
+Looks at the content type and accept headers of incoming and outgoing request, to decide what type of data should be sent and accepted. 
