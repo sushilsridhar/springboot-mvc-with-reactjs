@@ -1,5 +1,7 @@
 package com.springbootmvcwithreactjs.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
@@ -10,11 +12,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import java.util.Locale;
 
 @Configuration
 public class ApplicationConfig implements WebMvcConfigurer {
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     /* This overides the default view resolver bean , we can now remove the prefix and suffix property from
     *  application property file
@@ -24,8 +32,17 @@ public class ApplicationConfig implements WebMvcConfigurer {
         InternalResourceViewResolver bean = new InternalResourceViewResolver();
         bean.setPrefix("/WEB-INF/jsp/");
         bean.setSuffix(".jsp");
-        bean.setOrder(0);
+        bean.setOrder(1); // low preference given jsp pages resolver
         return bean;
+    }
+
+    /* This view resolver is for*/
+    @Bean
+    public ViewResolver thymeleafResolver() {
+        ThymeleafViewResolver thymeleafViewResolver = new ThymeleafViewResolver();
+        thymeleafViewResolver.setTemplateEngine(templateEngine());
+        thymeleafViewResolver.setOrder(0); // high preference given to thymeleaf pages resolver
+        return thymeleafViewResolver;
     }
 
     /* Resolves static pages, any request to /files will be handled by this handler */
@@ -57,5 +74,26 @@ public class ApplicationConfig implements WebMvcConfigurer {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
         return localeChangeInterceptor;
+    }
+
+    /* This bean is to locate template files and how they should be resolved */
+    @Bean
+    public SpringResourceTemplateResolver templateResolver() {
+        SpringResourceTemplateResolver springResourceTemplateResolver = new SpringResourceTemplateResolver();
+        springResourceTemplateResolver.setApplicationContext(applicationContext);
+        springResourceTemplateResolver.setPrefix("/WEB-INF/views/");
+        springResourceTemplateResolver.setSuffix(".html");
+        return springResourceTemplateResolver;
+    }
+
+    /* This engine will process the template pages and substitute the model values from spring in the UI
+    * This is unique to thymeleaf
+    */
+    @Bean
+    public SpringTemplateEngine templateEngine() {
+        SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
+        springTemplateEngine.setTemplateResolver(templateResolver());
+        springTemplateEngine.setEnableSpringELCompiler(true);
+        return springTemplateEngine;
     }
 }

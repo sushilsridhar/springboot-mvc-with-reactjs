@@ -22,8 +22,16 @@ Override addResourceHandlers method of WebMvcConfigurer.
 **Add Interceptor**  
 Override addInterceptors of WebMvcConfigurer. Set default locale, set param, based on which interception will happen.
 
+**I18N - internationalization**  
+Add different languages support using locale and property file.
+
 **Post-Redirect-Get**  
 after post, redirect to get request to reload the page.
+
+**Thymeleaf**  
+Setup TemplateResolver(resolves the location of template)  
+TemplateEngine(loads the model to template)  
+and ViewResolver(delegates work to template resolver, set priority in view resolver for thymeleaf, if config has multiple resolvers)
 
 **Smart Tomcat**  
 Intellij Idea CE does not support Application servers, so install smart tomcat plugin and follow the instructions mentioned in the link to configure external tomcat.  
