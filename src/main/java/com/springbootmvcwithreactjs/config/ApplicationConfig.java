@@ -32,7 +32,7 @@ public class ApplicationConfig implements WebMvcConfigurer {
         InternalResourceViewResolver bean = new InternalResourceViewResolver();
         bean.setPrefix("/WEB-INF/jsp/");
         bean.setSuffix(".jsp");
-        bean.setOrder(1); // low preference given jsp pages resolver
+        bean.setOrder(0); // low preference given jsp pages resolver - 1
         return bean;
     }
 
@@ -41,7 +41,7 @@ public class ApplicationConfig implements WebMvcConfigurer {
     public ViewResolver thymeleafResolver() {
         ThymeleafViewResolver thymeleafViewResolver = new ThymeleafViewResolver();
         thymeleafViewResolver.setTemplateEngine(templateEngine());
-        thymeleafViewResolver.setOrder(0); // high preference given to thymeleaf pages resolver
+        thymeleafViewResolver.setOrder(1); // high preference given to thymeleaf pages resolver - 0
         return thymeleafViewResolver;
     }
 

@@ -36,3 +36,6 @@ and ViewResolver(delegates work to template resolver, set priority in view resol
 **Smart Tomcat**  
 Intellij Idea CE does not support Application servers, so install smart tomcat plugin and follow the instructions mentioned in the link to configure external tomcat.  
 [Smart Tomcat configuration in Intellij Idea CE](https://plugins.jetbrains.com/plugin/9492-smart-tomcat)
+
+**Hibernate bean validation**  
+Contains javax.validation package for annotations like @NotEmpty, for bean validation.
